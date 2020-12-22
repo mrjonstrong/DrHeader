@@ -20,10 +20,9 @@
 #
 import os
 import sys
+import drheader
 
 sys.path.insert(0, os.path.abspath('..'))
-
-import drheader
 
 source_suffix = {
     '.rst': 'restructuredtext',

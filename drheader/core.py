@@ -127,19 +127,14 @@ class Drheader:
         :param expected_value: Expected value of header.
         :return:
         """
-        expected_value = [item.lower() for item in expected_value]
+        expected_value = []
+        for item in expected_value:
+            expected_value.append(str(item).lower())
         expected_value_list = expected_value
         if len(expected_value) == 1:
             expected_value_list = [item.strip(' ') for item in expected_value[0].split(self.delimiter)]
 
-        if rule not in self.headers:
-            self.__add_report_item(
-                severity='high',
-                rule=rule,
-                error_type=1,
-                expected=expected_value_list
-            )
-        else:
+        if rule in self.headers:
             rule_list = [item.strip(' ') for item in self.headers[rule].split(self.delimiter)]
             if not all(elem in expected_value_list for elem in rule_list):
                 # if not expected_value_list in rule_list:
@@ -150,6 +145,13 @@ class Drheader:
                     expected=expected_value_list,
                     value=self.headers[rule]
                 )
+        else:
+            self.__add_report_item(
+                severity='high',
+                rule=rule,
+                error_type=1,
+                expected=expected_value_list
+            )
 
     def __validate_not_exists(self, rule):
         """

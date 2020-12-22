@@ -48,7 +48,7 @@ def load_rules(rule_file=None, merge=None):
 
 def merge_rules(default_rules, custom_rules):
     """
-    Mege both rule set. Rules defined in 'custom_rules', also present in 'default_rules', will be overriden.
+    Merge both rule set. Rules defined in 'custom_rules', also present in 'default_rules', will be overridden.
     If a new rule is present in custom_rules, not present in default_rules, it will be added.
     :param default_rules: base file object of rules.
     :type default_rules: dict
@@ -64,16 +64,16 @@ def merge_rules(default_rules, custom_rules):
     return default_rules
 
 
-def get_rules_from_uri(URI):
+def get_rules_from_uri(uri):
     """
     Retrieves custom rule set from URL
-    :param URI: URL to your custom rules file
-    :type URI: uri
+    :param uri: URL to your custom rules file
+    :type uri: uri
     :return: rules file
     :rtype: file
     """
-    download = requests.get(URI)
+    download = requests.get(uri)
     if not download.content:
-        raise Exception('No content retrieved from {}'.format(URI))
+        raise Exception('No content retrieved from {}'.format(uri))
     file = io.BytesIO(download.content)
     return file

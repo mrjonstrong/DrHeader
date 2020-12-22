@@ -2,13 +2,13 @@
     {
         "url": "https://test.com",
         "headers": {
-            "X-XSS-Protection": "1; mode=block",
+            "X-XSS-Protection": "0",
             "Content-Security-Policy": "default-src 'none'; script-src 'self' unsafe-inline; object-src 'self';",
             "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
             "X-Frame-Options": "SAMEORIGIN",
             "X-Content-Type-Options": "nosniff",
             "Referrer-Policy": "strict-origin",
-            "Cache-Control": "no-cache, no-store, must-revalidate",
+            "Cache-Control": "no-cache, no-store, must-revalidate, max=age=0",
             "Pragma": "no-cache",
             "Set-Cookie": [
                 "HttpOnly; Secure"
@@ -19,13 +19,13 @@
     {
         "url": "https://test1.com",
         "headers": {
-            "X-XSS-Protection": "1; mode=block",
+            "X-XSS-Protection": "0",
             "Content-Security-Policy": "default-src 'none'; script-src 'self' unsafe-inline; object-src 'self';",
             "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
             "X-Frame-Options": "SAMEORIGIN",
             "X-Content-Type-Options": "nosniff",
             "Referrer-Policy": "strict-origin",
-            "Cache-Control": "no-cache, no-store, must-revalidate",
+            "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
             "Pragma": "no-cache",
             "Set-Cookie": [
                 "ss_cookie=opW4vJZ5ynerND7oj_J0_Ja; Path=/; Secure; HttpOnly"
@@ -36,7 +36,7 @@
     {
         "url": "test2",
         "headers": {
-            "X-XSS-Protection": "1; mode=block",
+            "X-XSS-Protection": "0",
             "Content-Security-Policy": "default-src 'none'; script-src 'self'; object-src 'self';",
             "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
             "X-Frame-Options": "DENY",
@@ -52,7 +52,7 @@
     {
         "url": "https://test3.com",
         "headers": {
-            "X-XSS-Protection": "1; mode=block",
+            "X-XSS-Protection": "0",
             "Content-Security-Policy": "default-src 'none'; script-src 'self'; object-src 'self';",
             "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
             "X-Frame-Options": "SAMEORIGIN",

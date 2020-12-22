@@ -51,24 +51,23 @@ class DrheaderRules(unittest2.TestCase):
 
     def test_compare_rules_enforce_ko(self):
         headers = {
-            'X-XSS-Protection': '1; mode=bloc',
+            'Pragma': 'no-cach',
             'Content-Security-Policy': "default-src 'none'; script-src 'self'; object-src 'self';"
         }
         expected_response = {
+            'rule': 'Pragma',
             'severity': 'high',
-            'rule': 'X-XSS-Protection',
             'message': 'Value does not match security policy',
-            'expected': ['1', 'mode=block'],
-            'delimiter': ';',
-            'value': '1; mode=bloc'
+            'value': 'no-cach',
+            'expected': 'no-cache'
         }
 
         self._process_test(headers=headers, status_code=200)
-        self.assertIn(expected_response, self.instance.report, msg="X-XSS")
+        self.assertIn(expected_response, self.instance.report, msg="Pragma")
 
     def test_compare_rules_required_ko(self):
         headers = {
-            'X-XSS-Protection': '1; mode=block'
+            'X-XSS-Protection': '0'
         }
         # this expected response has been changed to fit output now delivered,
         # plz to review if test still makes sense in PR
@@ -82,7 +81,7 @@ class DrheaderRules(unittest2.TestCase):
 
     def test_compare_rules_not_required_ko(self):
         headers = {
-            'X-XSS-Protection': '1; mode=block',
+            'X-XSS-Protection': '0',
             'Content-Security-Policy': "default-src 'none'; script-src 'self'; object-src 'self';",
             'Server': 'Apache',
             'X-Generator': 'Drupal 7 (http://drupal.org)'
@@ -104,10 +103,10 @@ class DrheaderRules(unittest2.TestCase):
 
     def test_compare_must_contain_ko(self):
         headers = {
-            'X-XSS-Protection': '1; mode=block',
+            'X-XSS-Protection': '0',
             'Content-Security-Policy': "default-src 'random'; script-src 'self'"
         }
-        csp_contain_reponse = {
+        csp_contain_response = {
             'severity': 'high',
             'rule': 'Content-Security-Policy',
             'message': 'Must-Contain-One directive missed',
@@ -118,11 +117,11 @@ class DrheaderRules(unittest2.TestCase):
         }
 
         self._process_test(headers=headers, status_code=200)
-        self.assertIn(csp_contain_reponse, self.instance.report, msg="CSP Contain Rule was triggered")
+        self.assertIn(csp_contain_response, self.instance.report, msg="CSP Contain Rule was triggered")
 
     def test_compare_must_avoid_ko(self):
         headers = {
-            'X-XSS-Protection': '1; mode=block',
+            'X-XSS-Protection': '0',
             'Content-Security-Policy': "default-src 'none'; script-src 'self'; object-src 'self'; "
                                        "unsafe-inline 'self;"
         }
@@ -139,7 +138,7 @@ class DrheaderRules(unittest2.TestCase):
 
     def test_compare_optional(self):
         headers = {
-            'X-XSS-Protection': '1; mode=block',
+            'X-XSS-Protection': '0',
             'Set-Cookie': ['Test']
         }
         medium_contain_response = {
@@ -166,7 +165,7 @@ class DrheaderRules(unittest2.TestCase):
 
     def test_compare_optional_not_exist(self):
         headers = {
-            'X-XSS-Protection': '1; mode=block'
+            'X-XSS-Protection': '0'
         }
         header_not_included_response = {
             'rule': 'Set-Cookie',
@@ -209,7 +208,7 @@ class DrheaderRules(unittest2.TestCase):
         self.assertNotIn(no_referrer_response, self.instance.report, msg="No Referrer Policy Rule was triggered")
 
     def test_referrer_policy_invalid_values_typo(self):
-        headers = {'Referrer-Policy': 'no-referrerr'}
+        headers = {'Referrer-Policy': 'no-referrer'}
 
         # this need updating as there is no referrer-policy rule in the output
         no_referrer_response = {
@@ -217,7 +216,7 @@ class DrheaderRules(unittest2.TestCase):
             'rule': 'Referrer-Policy',
             'message': 'Value does not match security policy',
             'expected': ['strict-origin', 'strict-origin-when-cross-origin', 'no-referrer'],
-            'value': 'no-referrerr'
+            'value': 'no-referrer'
         }
 
         self._process_test(headers=headers)
@@ -226,7 +225,7 @@ class DrheaderRules(unittest2.TestCase):
     def test_referrer_policy_strict_origin(self):
         headers = {'Referrer-Policy': 'strict-origin'}
 
-        # this needs updating because there is no refferer policy in output
+        # this needs updating because there is no referrer policy in output
         no_referrer_response = {
             'severity': 'high',
             'rule': 'Referrer-Policy',
@@ -242,8 +241,8 @@ class DrheaderRules(unittest2.TestCase):
     def test_referrer_policy_strict_cross_origin(self):
         headers = {'Referrer-Policy': 'strict-origin-when-cross-origin'}
 
-        # this needs updating because there is no refferer policy in output
-        referrer_strict_orgin_response = {
+        # this needs updating because there is no referrer policy in output
+        referrer_strict_origin_response = {
             'severity': 'high',
             'rule': 'Referrer-Policy',
             'message': 'Value does not match security policy',
@@ -253,13 +252,13 @@ class DrheaderRules(unittest2.TestCase):
         }
 
         self._process_test(headers=headers)
-        self.assertNotIn(referrer_strict_orgin_response, self.instance.report,
-                         msg="Refered SOWCO Policy Rule was triggred")
+        self.assertNotIn(referrer_strict_origin_response, self.instance.report,
+                         msg="Referred SOWCO Policy Rule was triggered")
 
     def test_csp_invalid_default_directive(self):
         headers = {'Content-Security-Policy': "default-src 'random';"}
 
-        # this needs updating because there is no Content-Security-Warining in output
+        # this needs updating because there is no Content-Security-Warning in output
         csp_invalid_default_response = {
             'severity': 'high',
             'rule': 'Content-Security-Policy',
@@ -276,7 +275,7 @@ class DrheaderRules(unittest2.TestCase):
     def test_csp_valid_default_directive_none(self):
         headers = {'Content-Security-Policy': "default-src 'none';"}
 
-        # this needs updating because there is no Content-Security-Warining in output
+        # this needs updating because there is no Content-Security-Warning in output
         csp_response_none = {
             'severity': 'high',
             'rule': 'Content-Security-Policy',
@@ -293,7 +292,7 @@ class DrheaderRules(unittest2.TestCase):
     def test_csp_invalid_default_directive_none(self):
         headers = {'Content-Security-Policy': "default-src 'non';"}
 
-        # this needs updating because there is no Content-Security-Warining in output
+        # this needs updating because there is no Content-Security-Warning in output
         csp_response_none = {
             'severity': 'high',
             'rule': 'Content-Security-Policy',
@@ -341,7 +340,7 @@ class DrheaderRules(unittest2.TestCase):
         headers = {
             'Server': 'Apache',
             'X-Generator': 'Drupal 7 (http://drupal.org)',
-            'X-XSS-Protection': '1; mode=bloc',
+            'X-XSS-Protection': '1',
             'Content-Security-Policy': "default-src 'random'; script-sr 'self'; object-src 'self'; unsafe-inline 'self;"
         }
 
@@ -364,9 +363,8 @@ class DrheaderRules(unittest2.TestCase):
              },
             {'severity': 'high', 'rule': 'X-XSS-Protection',
              'message': 'Value does not match security policy',
-             'expected': ['1', 'mode=block'],
-             'delimiter': ';',
-             'value': '1; mode=bloc'
+             'expected': '0',
+             'value': '1'
              },
             {'severity': 'high',
              'rule': 'Server',

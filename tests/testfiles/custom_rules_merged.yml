@@ -7,7 +7,7 @@ Headers:
         Required: True
         Enforce: True
         Value:
-        - 1; mode=block
+        - 0
     Server:
         Required: False
         Enforce: False
@@ -50,6 +50,7 @@ Headers:
         Delimiter: ','
         Value:
         - no-cache, no-store, must-revalidate
+        - no-cache, no-store, must-revalidate, max-age=0
     Pragma:
         Required: True
         Enforce: True
