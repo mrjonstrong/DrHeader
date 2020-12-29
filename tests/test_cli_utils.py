@@ -37,8 +37,8 @@ class TestCliUtilsFunctions(unittest2.TestCase, xmlunittest.XmlTestMixin):
 
     def test_file_junit_report_contains_ten_failures_and_seventeen_cases(self):
         root = self.assertXmlDocument(self.xml)
-        self.assertXmlHasAttribute(root, 'failures', expected_values=('10'))
-        self.assertXmlHasAttribute(root, 'tests', expected_values=('17'))
+        self.assertXmlHasAttribute(root, 'failures', expected_values='10')
+        self.assertXmlHasAttribute(root, 'tests', expected_values='17')
 
     def test_file_junit_report_contains_only_one_testsuite(self):
         root = self.assertXmlDocument(self.xml)

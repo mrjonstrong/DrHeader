@@ -49,7 +49,7 @@ If you wish to scan multiple sites, you'll need the targets in a JSON format, or
           "example_parameter_key": "example_parameter_value"
       }
     },
-    ...
+    "..."
   ]
 ```
 
@@ -138,7 +138,7 @@ DrHEADer relies on a yaml file that defines the policy it will use when auditing
 We have a lot of ideas for drHEADer, and will push often as a result. Some of the things you'll see shortly are:
 
 * Building on the Python library to make it easier to embed in your own projects.
-* Releasing the API, which is seperate from the core library - the API allows you to hit URLs or endpoints at scale
+* Releasing the API, which is separate from the core library - the API allows you to hit URLs or endpoints at scale
 * Better integration into MiTM proxies.
 
 ## Who Is Behind It?

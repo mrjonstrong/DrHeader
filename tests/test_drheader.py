@@ -58,8 +58,7 @@ class DrheaderRules(unittest2.TestCase):
             'rule': 'Pragma',
             'severity': 'high',
             'message': 'Value does not match security policy',
-            'value': 'no-cach',
-            'expected': 'no-cache'
+            'value': 'no-cach'
         }
 
         self._process_test(headers=headers, status_code=200)
@@ -363,8 +362,7 @@ class DrheaderRules(unittest2.TestCase):
              },
             {'severity': 'high', 'rule': 'X-XSS-Protection',
              'message': 'Value does not match security policy',
-             'expected': '0',
-             'value': '1'
+             'value': '1',
              },
             {'severity': 'high',
              'rule': 'Server',
@@ -372,22 +370,22 @@ class DrheaderRules(unittest2.TestCase):
              },
             {'severity': 'high',
              'rule': 'Strict-Transport-Security',
-             'message': 'Header not included in response',
-             'expected': ['max-age=31536000', 'includesubdomains'],
-             'delimiter': ';'
+             'message': 'Header not included in response'
+#             'expected': ['max-age=31536000', 'includesubdomains'],
+#             'delimiter': ';'
              },
             {'severity': 'high',
 
              'rule': 'X-Frame-Options',
-             'message': 'Header not included in response',
-             'expected': ['sameorigin', 'deny'],
-             'delimiter': ';'
+             'message': 'Header not included in response'
+#             'expected': ['sameorigin', 'deny'],
+#             'delimiter': ';'
              },
             {'severity': 'high',
              'rule': 'X-Content-Type-Options',
-             'message': 'Header not included in response',
-             'expected': ['nosniff'],
-             'delimiter': ';'
+             'message': 'Header not included in response'
+#             'expected': ['nosniff'],
+#             'delimiter': ';'
              },
 
             {'severity': 'high',
@@ -396,16 +394,17 @@ class DrheaderRules(unittest2.TestCase):
              },
             {'severity': 'high',
              'rule': 'Cache-Control',
-             'message': 'Header not included in response',
+             'message': 'Header not included in response'
              # modified this to account for list value rather then string
-             'expected': ['no-cache', 'no-store', 'must-revalidate'],
-             'delimiter': ','
+#             'expected': ['no-cache', 'no-store', 'must-revalidate'],
+#             'delimiter': ','
              },
             {'severity': 'high',
              'rule': 'Pragma',
-             'message': 'Header not included in response',
-             'expected': ['no-cache'],
-             'delimiter': ';'},
+             'message': 'Header not included in response'
+#             'expected': ['no-cache'],
+#             'delimiter': ';'
+             },
             {'severity': 'high',
              'rule': 'X-Generator',
              'message': 'Header should not be returned'

@@ -31,3 +31,4 @@ To use the drHEADer cli::
     Commands:
       compare  Compare your headers through drheader.
       scan     Scan endpoints with drheader.
+
