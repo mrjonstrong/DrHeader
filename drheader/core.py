@@ -131,6 +131,8 @@ class Drheader:
         for item in expected_value:
             if item is not int:
                 expected_value.append(item.lower())
+            else:
+                expected_value.append(item)
         expected_value_list = expected_value
         if len(expected_value) == 1:
             expected_value_list = [item.strip(' ') for item in expected_value[0].split(self.delimiter)]
